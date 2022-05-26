@@ -1,6 +1,6 @@
 // the tetris header
 
-// including an unreasonable 
+// including an unreasonable
 // amount of libraries:
 #include <iostream>
 #include <vector>
@@ -38,7 +38,7 @@ class Shape {
 
         vector<vector<bool> > selected; // the current selected shape
         vector<vector<bool> > nextUp; // the next shape
-        
+
         vector<int> chosenchars; // the chosen set of print keys
         vector<int> nextchars;   // the next set of print keys
 
@@ -99,7 +99,7 @@ class Shape {
         };
 
         vector<vector<string> > currentWin;
-        
+
         // vector<int> colors = { COLOR_WHITE, COLOR_WHITE, COLOR_BLUE, COLOR_RED, COLOR_RED, COLOR_BLUE, COLOR_WHITE };
         vector<int> colors = { COLOR_YELLOW, COLOR_CYAN, COLOR_BLUE, COLOR_WHITE, COLOR_RED, COLOR_GREEN, COLOR_MAGENTA };
         int color; // the chosen color in the array
@@ -115,12 +115,12 @@ class Shape {
 
         // create a new shape
         void generate(vector<vector<string> > window);
-        
+
         // methods for changing the shape positions
         void draw();
         void drop();
         void fall();
-        void rotate();
+        void rotate(int dir);
         void move(int movetype);
         void ground(int framerate);
         vector<int> charCoords(vector<vector<bool> > shape);
@@ -129,7 +129,7 @@ class Shape {
         void showGround();
         void groundDraw(int down);
         vector<int> groundCoords(vector<vector<bool> > shape, int down);
-        
+
         // updating game states
         void checkDeath();
 };
@@ -155,7 +155,7 @@ class Screen {
         // display variables
         // we might not want to hardcode the border
         const string screenstr = "  ┏━━k-vernooy/tetris━━┓\n  ┃                    ┃\n  ┃                    ┃   ┏━━next━━━┓\n  ┃                    ┃   ┃         ┃\n  ┃                    ┃   ┃         ┃\n  ┃                    ┃   ┃         ┃\n  ┃                    ┃   ┗━━━━━━━━━┛\n  ┃                    ┃\n  ┃                    ┃   ┏━━score━━┓\n  ┃                    ┃   ┃         ┃\n  ┃                    ┃   ┃  0      ┃\n  ┃                    ┃   ┃         ┃\n  ┃                    ┃   ┗━━━━━━━━━┛\n  ┃                    ┃\n  ┃                    ┃   ┏━━lines━━┓\n  ┃                    ┃   ┃         ┃\n  ┃                    ┃   ┃  0      ┃\n  ┃                    ┃   ┃         ┃\n  ┃                    ┃   ┗━━━━━━━━━┛\n  ┗━━━━━━━━━━━━━━━━━━━━┛\n                 ";
-        vector<vector<string> > window; 
+        vector<vector<string> > window;
         vector<int> colors = { COLOR_YELLOW, COLOR_CYAN, COLOR_BLUE, COLOR_WHITE, COLOR_RED, COLOR_GREEN, COLOR_MAGENTA };
 
         Screen(int startlevel); // constructor for generating an array and setting a start level

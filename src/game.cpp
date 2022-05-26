@@ -1,23 +1,23 @@
 #include "../include/tetris.hpp"
 
-void game(Shape shape, Screen screen, int startLevel, bool easy, string basename) { 
+void game(Shape shape, Screen screen, int startLevel, bool easy, string basename) {
     // the main gameloop
-    
-    // general game constants 
+
+    // general game constants
     int frameRate = 24;
     frameRate -= startLevel;
 
     bool newShape = true;
     int count = 0;
     unsigned int microseconds = 10000;
-    
+
     // in case the terminal doesnt support invis cursor
     int restingCursor[2] = { 23, 22 };
 
 
     while (!shape.gameover) {
 
-        if ( screen.advancingLevel ) { 
+        if ( screen.advancingLevel ) {
            // change the colors for the level
             if ( frameRate > 2 ) {
                 frameRate--;
@@ -33,11 +33,11 @@ void game(Shape shape, Screen screen, int startLevel, bool easy, string basename
             shape.generate(screen.window);
             screen.addNext(shape.nextUp, shape.nextchars);
             shape.drop();
-           
+
             if (shape.gameover) {
                break;
             }
-          
+
             newShape = false;
         }
         else if ( (count + 1) % frameRate == 0 ) {
@@ -47,7 +47,7 @@ void game(Shape shape, Screen screen, int startLevel, bool easy, string basename
         else if ( count % frameRate == 0) {
             // if the shape is still dropping
             if (shape.isdropping > 0) {
-                // if the shape is high enough that we need to 
+                // if the shape is high enough that we need to
                 // keep dropping it, do so without worrying about user input
                 shape.drop();
             }
@@ -56,15 +56,15 @@ void game(Shape shape, Screen screen, int startLevel, bool easy, string basename
                 shape.fall();
 
                 if ( shape.cannotMove ) {
-                    //shape can no longer move, so we need to 
+                    //shape can no longer move, so we need to
                     // generate another shape next iteration of the loop
                     newShape = true;
                 }
             }
         }
 
-        // sleep (for a fraction of a block drop) 
-        // in order to allow moving during frame        
+        // sleep (for a fraction of a block drop)
+        // in order to allow moving during frame
         usleep(microseconds);
 
 
@@ -76,19 +76,22 @@ void game(Shape shape, Screen screen, int startLevel, bool easy, string basename
 
         if ( ch ) {
             // handle different moves
-            if ( ch == KEY_UP) {
-                shape.rotate();
+            if ( ch == 'j' || ch == KEY_UP) {
+                shape.rotate(0);
             }
-            else if ( ch == KEY_DOWN) {
+            else if ( ch == 'k' ) {
+                shape.rotate(1);
+            }
+            else if ( ch == 's' || ch == KEY_DOWN) {
                 shape.move(3);
             }
-            else if ( ch == KEY_LEFT) {
+            else if ( ch == 'a' ||  ch == KEY_LEFT) {
                 shape.move(1);
             }
-            else if ( ch == KEY_RIGHT) {
+            else if ( ch == 'd' ||  ch == KEY_RIGHT) {
                 shape.move(2);
             }
-            else if ( ch == ' ' ) {
+            else if (  ch == 'w' || ch == ' ' ) {
                 ground = true;
             }
             // turn on or off guide mode
@@ -138,7 +141,7 @@ void game(Shape shape, Screen screen, int startLevel, bool easy, string basename
             };
         }
     }
-    
+
     // wait for keyinput
     nodelay(stdscr, FALSE);
     wrefresh(stdscr);
